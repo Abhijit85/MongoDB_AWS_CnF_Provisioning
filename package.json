@@ -1,0 +1,35 @@
+{
+  "name": "mongodb-aws-cnf-provisioning",
+  "version": "0.1.0",
+  "description": "Infrastructure-as-code project for provisioning MongoDB Atlas resources on AWS using MongoDB CloudFormation resources and Atlas CDK constructs with optional guard rails.",
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "synth": "cdk synth",
+    "deploy": "cdk deploy",
+    "diff": "cdk diff",
+    "lint": "eslint --ext .ts src bin",
+    "test": "npm run build && npm run lint"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.26",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/parser": "^8.45.0",
+    "aws-cdk": "^2.136.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsdoc": "^48.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.136.0",
+    "awscdk-resources-mongodbatlas": "^3.13.0",
+    "cdk-nag": "^2.32.2",
+    "constructs": "^10.3.0",
+    "source-map-support": "^0.5.21"
+  }
+}

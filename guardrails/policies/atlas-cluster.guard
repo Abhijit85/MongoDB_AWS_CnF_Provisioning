@@ -1,0 +1,34 @@
+let approved_instance_sizes = ["M10", "M20", "M30"]
+
+rule atlas_cluster_requires_backups when %MongoDB::Atlas::Cluster exists {
+  %MongoDB::Atlas::Cluster.BackupEnabled == true
+}
+
+rule atlas_cluster_instance_size_within_bounds when %MongoDB::Atlas::Cluster exists {
+  %MongoDB::Atlas::Cluster.ReplicationSpecs[*].AdvancedRegionConfigs[*].ElectableSpecs.InstanceSize in approved_instance_sizes
+}
+
+rule atlas_cluster_has_three_nodes when %MongoDB::Atlas::Cluster exists {
+  %MongoDB::Atlas::Cluster.ReplicationSpecs[*].AdvancedRegionConfigs[*].ElectableSpecs.NodeCount == 3
+}
+
+rule project_requires_name when %MongoDB::Atlas::Project exists {
+  %MongoDB::Atlas::Project.Name != ""
+}
+
+rule project_requires_org when %MongoDB::Atlas::Project exists {
+  %MongoDB::Atlas::Project.OrgId != ""
+}
+
+rule project_has_ip_access_list when %MongoDB::Atlas::ProjectIpAccessList exists {
+  %MongoDB::Atlas::ProjectIpAccessList.AccessList[*].CIDRBlock != ""
+}
+
+rule atlas_cluster_guardrails {
+  atlas_cluster_requires_backups and
+  atlas_cluster_instance_size_within_bounds and
+  atlas_cluster_has_three_nodes and
+  project_requires_name and
+  project_requires_org and
+  project_has_ip_access_list
+}
