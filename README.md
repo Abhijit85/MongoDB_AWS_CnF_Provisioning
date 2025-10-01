@@ -31,6 +31,22 @@ To keep environments lean, the app layers multiple **guard rails** on top of the
 4. **cfn-guard** CLI (optional) for policy validation.
 5. Copy `.env.example` to `.env`, update with AWS credentials or profile, and `source .env` before deploying.
 
+## Preparing the Atlas API secret
+
+1. In the Atlas UI, navigate to **Organization → Access Management → API Keys** and create a key with the roles your automation requires (for example, `Organization Project Creator`, `Project Cluster Manager`, and `Project Owner`). Copy the public and private keys before closing the dialog.
+2. Choose a profile name for the secret (the examples use `default`).
+3. Store the key pair in AWS Secrets Manager at `cfn/atlas/profile/<ProfileName>` using either the console (**Store a new secret → Other type of secret**) with key/value pairs `publicKey` and `privateKey`, or via the AWS CLI:
+
+   ```bash
+   aws secretsmanager create-secret \
+     --name cfn/atlas/profile/default \
+     --secret-string '{"publicKey":"<PUBLIC_KEY>","privateKey":"<PRIVATE_KEY>"}'
+   ```
+
+   If the secret already exists, replace `create-secret` with `put-secret-value`.
+4. Ensure the IAM user or role that runs `cdk deploy` has `secretsmanager:GetSecretValue` access to that secret.
+5. Update `AtlasProfileName` in `config/atlas-parameters.json` if you used a profile name other than `default`.
+
 ## Bootstrap & installation
 
 ```bash
