@@ -11,7 +11,8 @@
     "deploy": "cdk deploy",
     "diff": "cdk diff",
     "lint": "eslint --ext .ts src bin",
-    "test": "npm run build && npm run lint"
+    "test": "npm run build && npm run lint",
+    "deploy:params": "node bin/deploy-with-parameters.js"
   },
   "devDependencies": {
     "@types/node": "^20.11.26",

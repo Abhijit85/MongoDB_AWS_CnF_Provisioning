@@ -2,3 +2,5 @@ node_modules/
 cdk.out/
 dist/
 *.tsbuildinfo
+
+config/atlas-parameters.json

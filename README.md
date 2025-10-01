@@ -41,6 +41,10 @@ npx cdk bootstrap aws://<ACCOUNT>/<REGION>
 
 You can pass common Atlas settings through either **CDK context** or **CloudFormation parameters**.
 
+> Tip: A starter file lives at `config/atlas-parameters.example.json`. Copy it to
+> `config/atlas-parameters.json`, update the values, and the deploy helper script
+> will inject them automatically so you never have to type them on the CLI.
+
 *Context overrides* (set in `cdk.json`, via CLI `--context`, or environment variables):
 
 | Context key       | Description                                             | Default |
@@ -65,12 +69,18 @@ You can pass common Atlas settings through either **CDK context** or **CloudForm
 ## Synthesising and deploying
 
 ```bash
+cp config/atlas-parameters.example.json config/atlas-parameters.json
+# edit config/atlas-parameters.json and set your organization, password, etc.
+
 npm run build
 npm run synth
-npm run deploy -- \
-  --parameters AtlasOrgId=<ORG_ID> \
-  --parameters AtlasDbUserPassword=<STRONG_PASSWORD>
+npm run deploy:params -- --require-approval never
 ```
+
+The helper script reads `config/atlas-parameters.json` by default. Pass
+`npm run deploy:params -- --profile my-aws-profile` to forward additional CDK
+arguments, or point at a different file with
+`npm run deploy:params -- -c path/to/custom-parameters.json`.
 
 After deployment, the stack outputs the Atlas project and cluster IDs for downstream automation.
 

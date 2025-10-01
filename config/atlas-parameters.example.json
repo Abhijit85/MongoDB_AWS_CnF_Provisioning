@@ -1,0 +1,13 @@
+{
+  "_instructions": "Copy this file to atlas-parameters.json and update the values before deploying.",
+  "AtlasOrgId": "000000000000000000000000",
+  "AtlasProjectName": "aws-cdk-atlas-project",
+  "AtlasClusterName": "aws-cdk-atlas-cluster",
+  "AtlasClusterRegion": "US_EAST_1",
+  "AtlasClusterInstanceSize": "M10",
+  "MongoDbMajorVersion": "7.0",
+  "AtlasDbUsername": "atlas-user",
+  "AtlasDbUserPassword": "ChangeMe123!",
+  "AtlasTrustedCidrs": ["0.0.0.0/0"],
+  "AtlasProfileName": "default"
+}
