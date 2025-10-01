@@ -18,6 +18,7 @@ To keep environments lean, the app layers multiple **guard rails** on top of the
 ├── bin/                     # CDK application entry point
 ├── src/                     # CDK stacks and guard-rail logic
 ├── guardrails/              # Optional cfn-guard policies and docs
+├── terraform/               # Terraform alternative with guard-railed Atlas deployment
 ├── cdk.json                 # CDK configuration
 ├── package.json             # Project dependencies and NPM scripts
 └── tsconfig.json            # TypeScript compiler configuration
@@ -103,6 +104,14 @@ arguments, or point at a different file with
 `npm run deploy:params -- -c path/to/custom-parameters.json`.
 
 After deployment, the stack outputs the Atlas project and cluster IDs for downstream automation.
+
+## Terraform alternative
+
+Prefer Terraform over the CDK? The [`terraform/`](terraform/README.md) directory
+contains a like-for-like deployment that sources the same Atlas API secret from
+AWS Secrets Manager, provisions the project, cluster, user, and IP access list,
+and enforces governance through `guardrails/atlas-guardrails.json`. Review the
+sub-directory README for initialisation steps and variable details.
 
 ## Running guard rails manually
 
