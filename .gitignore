@@ -4,3 +4,4 @@ dist/
 *.tsbuildinfo
 
 config/atlas-parameters.json
+.env

@@ -29,6 +29,7 @@ To keep environments lean, the app layers multiple **guard rails** on top of the
 2. **MongoDB Atlas CloudFormation resources** activated in every AWS account/region used.
 3. **Node.js 18+** and the **AWS CDK v2 CLI** installed locally.
 4. **cfn-guard** CLI (optional) for policy validation.
+5. Copy `.env.example` to `.env`, update with AWS credentials or profile, and `source .env` before deploying.
 
 ## Bootstrap & installation
 
@@ -69,8 +70,11 @@ You can pass common Atlas settings through either **CDK context** or **CloudForm
 ## Synthesising and deploying
 
 ```bash
+cp .env.example .env
 cp config/atlas-parameters.example.json config/atlas-parameters.json
-# edit config/atlas-parameters.json and set your organization, password, etc.
+# edit .env and config/atlas-parameters.json with your credentials and settings
+
+source .env
 
 npm run build
 npm run synth
