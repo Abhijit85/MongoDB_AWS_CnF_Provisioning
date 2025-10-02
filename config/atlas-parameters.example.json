@@ -8,6 +8,6 @@
   "MongoDbMajorVersion": "7.0",
   "AtlasDbUsername": "atlas-user",
   "AtlasDbUserPassword": "ChangeMe123!",
-  "AtlasTrustedCidrs": ["0.0.0.0/0"],
+  "AtlasTrustedCidrs": "0.0.0.0/0",
   "AtlasProfileName": "default"
 }

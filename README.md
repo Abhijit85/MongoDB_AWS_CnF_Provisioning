@@ -81,7 +81,7 @@ You can pass common Atlas settings through either **CDK context** or **CloudForm
 | `MongoDbMajorVersion`     | MongoDB major version.                                | `7.0` |
 | `AtlasDbUsername`         | Database user name created by the stack.              | `atlas-user` |
 | `AtlasDbUserPassword`     | Password for the user (mark as `NoEcho` in CloudFormation). | _(required)_ |
-| `AtlasTrustedCidrs`       | List of trusted CIDR blocks allowed to access Atlas. | `['0.0.0.0/0']` |
+| `AtlasTrustedCidrs`       | CIDR block allowed to access Atlas (extend the stack to support multiple entries). | `0.0.0.0/0` |
 | `AtlasProfileName`        | Name of the Secrets Manager profile (defaults to context). | `default` |
 
 ## Synthesising and deploying

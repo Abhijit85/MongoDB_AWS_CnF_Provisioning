@@ -78,9 +78,10 @@ export class MongoDbAtlasClusterStack extends cdk.Stack {
     });
 
     const ipAccessListParam = new cdk.CfnParameter(this, 'AtlasTrustedCidrs', {
-      type: 'List<String>',
-      description: 'CIDR blocks that should be allowed to connect to the cluster.',
-      default: ['0.0.0.0/0'],
+      type: 'String',
+      description:
+        'CIDR block that should be allowed to connect to the cluster. Provide additional entries by forking the stack or extending the resource.',
+      default: '0.0.0.0/0',
     });
 
     this.atlasDeployment = new AtlasBasic(this, 'AtlasDeployment', {
@@ -122,10 +123,12 @@ export class MongoDbAtlasClusterStack extends cdk.Stack {
         ],
       },
       ipAccessListProps: {
-        accessList: ipAccessListParam.valueAsList.map((cidr) => ({
-          cidrBlock: cidr,
-          comment: 'Managed by AWS CDK guard-railed deployment.',
-        })),
+        accessList: [
+          {
+            cidrBlock: ipAccessListParam.valueAsString,
+            comment: 'Managed by AWS CDK guard-railed deployment.',
+          },
+        ],
       },
     });
 
