@@ -34,13 +34,13 @@ To keep environments lean, the app layers multiple **guard rails** on top of the
 
 ## Preparing the Atlas API secret
 
-1. In the Atlas UI, navigate to **Organization → Access Management → API Keys** and create a key with the roles your automation requires (for example, `Organization Project Creator`, `Project Cluster Manager`, and `Project Owner`). Copy the public and private keys before closing the dialog.
+1. In the Atlas UI, navigate to **Organization → Access Manager → API Keys** and create a key with the roles your automation requires (for example, `Organization Project Creator`, `Project Cluster Manager`, and `Project Owner`). Copy the public and private keys before closing the dialog.
 2. Choose a profile name for the secret (the examples use `default`).
 3. Store the key pair in AWS Secrets Manager at `cfn/atlas/profile/<ProfileName>` using either the console (**Store a new secret → Other type of secret**) with key/value pairs `publicKey` and `privateKey`, or via the AWS CLI:
 
    ```bash
    aws secretsmanager create-secret \
-     --name cfn/atlas/profile/default \
+     --secret-id cfn/atlas/profile/default \
      --secret-string '{"publicKey":"<PUBLIC_KEY>","privateKey":"<PRIVATE_KEY>"}'
    ```
 
@@ -81,7 +81,7 @@ You can pass common Atlas settings through either **CDK context** or **CloudForm
 | `MongoDbMajorVersion`     | MongoDB major version.                                | `7.0` |
 | `AtlasDbUsername`         | Database user name created by the stack.              | `atlas-user` |
 | `AtlasDbUserPassword`     | Password for the user (mark as `NoEcho` in CloudFormation). | _(required)_ |
-| `AtlasTrustedCidrs`       | CIDR block allowed to access Atlas (extend the stack to support multiple entries). | `0.0.0.0/0` |
+| `AtlasTrustedCidrs`       | List of trusted CIDR blocks allowed to access Atlas. | `['0.0.0.0/0']` |
 | `AtlasProfileName`        | Name of the Secrets Manager profile (defaults to context). | `default` |
 
 ## Synthesising and deploying
