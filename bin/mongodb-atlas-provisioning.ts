@@ -11,6 +11,15 @@ const env: cdk.Environment = {
   region: process.env.CDK_DEFAULT_REGION ?? 'us-east-1',
 };
 
+const bootstrapQualifier =
+  process.env.CDK_DEFAULT_QUALIFIER ??
+  process.env.CDK_QUALIFIER ??
+  app.node.tryGetContext('@aws-cdk/core:bootstrapQualifier');
+
+const synthesizer = bootstrapQualifier
+  ? new cdk.DefaultStackSynthesizer({ qualifier: bootstrapQualifier })
+  : undefined;
+
 const atlasClusterStage = new GuardRailStage(app, 'MongoDbAtlasStage', {
   env,
   guardRailConfig: {
@@ -22,6 +31,7 @@ const atlasClusterStage = new GuardRailStage(app, 'MongoDbAtlasStage', {
 
 new MongoDbAtlasClusterStack(atlasClusterStage, 'MongoDbAtlasStack', {
   env,
+  synthesizer,
 });
 
 app.synth();

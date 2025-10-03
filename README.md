@@ -95,7 +95,8 @@ source .env
 
 npm run build
 npm run synth
-npm run deploy:params -- --require-approval never
+# npm run deploy:params -- --require-approval never
+npm run deploy:params -- -- MongoDbAtlasStage/MongoDbAtlasStack --require-approval never
 ```
 
 The helper script reads `config/atlas-parameters.json` by default. Pass
@@ -103,7 +104,12 @@ The helper script reads `config/atlas-parameters.json` by default. Pass
 arguments, or point at a different file with
 `npm run deploy:params -- -c path/to/custom-parameters.json`.
 
+## Monitoring Progress
+
 After deployment, the stack outputs the Atlas project and cluster IDs for downstream automation.
+
+> Tip: To watch deployment progress, open CloudFormation in the AWS console or stream events via
+> `aws cloudformation describe-stack-events --stack-name MongoDbAtlasStage-MongoDbAtlasStack --region us-east-1`.
 
 ## Terraform alternative
 
@@ -133,3 +139,23 @@ npm run destroy
 ```
 
 Remember to remove the generated Atlas project or rotate any Atlas API credentials when finished.
+
+
+
+## Trouble Shooting
+If the bucket can’t be recreated automatically (for example you deleted it but the CloudFormation stack still exists), delete the CDKToolkit stack in CloudFormation first, then run the bootstrap command. After the bucket exists again, the deploy will proceed without that error.
+
+```bash
+# same AWS profile/credentials you use for deploy
+export CDK_NEW_BOOTSTRAP=1
+export CDK_DEFAULT_QUALIFIER=atlas
+
+# (re)create the bootstrap stack and bucket
+npx cdk bootstrap --qualifier atlas aws://979559056307/us-east-1
+
+# confirm the bucket exists if you like
+aws s3 ls | grep cdk-atlas-assets-979559056307-us-east-1
+
+# deploy the stack, still using the atlas qualifier
+CDK_DEFAULT_QUALIFIER=atlas npm run deploy:params -- -- MongoDbAtlasStage/MongoDbAtlasStack --require-approval never
+```

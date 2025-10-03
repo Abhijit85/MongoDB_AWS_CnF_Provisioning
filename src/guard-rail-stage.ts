@@ -1,4 +1,4 @@
-import { Annotations, Aspects, IAspect, Stage, StageProps } from 'aws-cdk-lib';
+import { Annotations, Aspects, IAspect, Stage, StageProps, Token } from 'aws-cdk-lib';
 import {
   AdvancedRegionConfig,
   AdvancedReplicationSpec,
@@ -111,9 +111,13 @@ export class AtlasGuardRailAspect implements IAspect {
     }
 
     const sizes = this.extractInstanceSizes(node.props.replicationSpecs);
-    const unauthorized = sizes.filter(
-      (size) => !this.config.approvedInstanceSizes.includes(size),
-    );
+    const unauthorized = sizes.filter((size) => {
+      if (Token.isUnresolved(size)) {
+        return false; // Allow parameterised instance sizes to pass guard rail validation.
+      }
+
+      return !this.config.approvedInstanceSizes.includes(size);
+    });
 
     if (unauthorized.length > 0) {
       const unique = Array.from(new Set(unauthorized)).sort();
