@@ -150,6 +150,7 @@ If the bucket can’t be recreated automatically (for example you deleted it but
 export CDK_NEW_BOOTSTRAP=1
 export CDK_DEFAULT_QUALIFIER=atlas
 
+
 # (re)create the bootstrap stack and bucket
 npx cdk bootstrap --qualifier atlas aws://979559056307/us-east-1
 
@@ -159,3 +160,7 @@ aws s3 ls | grep cdk-atlas-assets-979559056307-us-east-1
 # deploy the stack, still using the atlas qualifier
 CDK_DEFAULT_QUALIFIER=atlas npm run deploy:params -- -- MongoDbAtlasStage/MongoDbAtlasStack --require-approval never
 ```
+
+
+# CloudFormation resources (Atlas Project) not working in CDK Issues
+https://www.mongodb.com/community/forums/t/cloudformation-resources-atlas-project-not-working-in-cdk/183440
